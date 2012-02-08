@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!DOCTYPE configuration
+	    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+	<configuration>
+		<settings>
+			<!-- changes from the defaults -->
+			<setting name="lazyLoadingEnabled" value="false" />
+		</settings>
+		<environments default="development">
+			<environment id="development">
+				<transactionManager type="JDBC"/>
+				<dataSource type="POOLED">
+					<property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
+					<property name="url" value="jdbc:oracle:thin:@172.16.0.120:1521:fyg"/>
+					<property name="username" value="eas60"/>
+					<property name="password" value="eas60"/>
+				</dataSource>
+			</environment>
+		</environments>
+		<mappers>
+			<mapper resource="mapper/CertPersonMapper.xml"/>
+			<mapper resource="mapper/InnerAccountMapper.xml"/>
+		</mappers>
+	</configuration>

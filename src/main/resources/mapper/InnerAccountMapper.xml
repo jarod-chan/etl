@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.fyg.etl.mapper.InnerAccountMapper">
+
+	<resultMap id="hashmap" type="java.util.HashMap">
+		<result property="fnumber" column="fnumber" />
+		<result property="fname_l2" column="fname_l2" />
+	</resultMap>
+	
+	<select id="getAll" resultMap="hashmap">
+		select fnumber,fname_l2 from T_FS_InnerAccount where rownum&lt;10
+	</select>
+	
+	
+	<select id="getList"  resultType="List<HashMap<String,Object>>">
+		select fnumber,fname_l2 from T_FS_InnerAccount where rownum&lt;10
+	</select>
+	
+</mapper>

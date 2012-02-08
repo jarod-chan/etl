@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.fyg.db2excel.mapper.CertPersonMapper">
+
+	<resultMap id="hashmap" type="java.util.HashMap">
+		<result property="certnumber" column="certnumber" />
+		<result property="certname" column="certname" />
+		<result property="name" column="name" />
+		<result property="times" column="times" />
+	</resultMap>
+	
+	<select id="getCertPseron" resultMap="hashmap">
+		select a.fcertnumber as certnumber,a.fcertname as certname,d.fname_l2 as name,count(*) as times 
+		from t_ctp_cert_person_manage a, 
+		t_cer_cert_personbellowentry b,
+		t_cer_cert_personbellow c,
+		t_bd_person d 
+		where a.fid=b.ffl_certnoid(+) and b.fparentid=c.fid(+) and a.fpersonnameid=d.fid(+)
+		and d.fid is not null
+		and c.fischeck=1
+		group by a.fcertnumber,a.fcertname,d.fname_l2
+	</select>
+	
+	
+	<resultMap id="map_cpt" type="java.util.HashMap">
+		<result property="name" column="name" />
+		<result property="times" column="times" />
+	</resultMap>
+	
+	<select id="getCertPersonTimes" parameterType="int"  resultMap="map_cpt">
+		select  * from (
+		    select d.fname_l2 as name,count(a.fid) as times 
+		    from t_ctp_cert_person_manage a, 
+		    t_cer_cert_personbellowentry b,
+		    t_cer_cert_personbellow c,
+		    t_bd_person d 
+		    where a.fid=b.ffl_certnoid(+) and b.fparentid=c.fid(+) and a.fpersonnameid=d.fid
+		    and d.fid is not null
+		    and c.fischeck=1
+		    group by d.fname_l2
+		    order by times desc
+		) where rownum &lt; = #{top}
+	</select>
+	
+
+	
+</mapper>
